@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ETA321：香港公共交通 ETA 的分秒倒數體驗。">
+  <meta name="theme-color" content="#061A6E">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23061A6E'/%3E%3Cpath d='M13 34h38' stroke='%2348B6FF' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='45' cy='34' r='6' fill='%23fff'/%3E%3C/svg%3E">
+  <title>ETA321｜香港交通分秒倒數</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --navy: #061a6e;
+      --blue: #0a84ff;
+      --sky: #48b6ff;
+      --ink: #0a1741;
+      --muted: #526078;
+      --surface: #ffffff;
+      --soft-blue: #edf7ff;
+      --line: #d7e7f8;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #f6faff;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang HK", "Noto Sans TC", sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+    a { color: #006fd6; }
+    a:focus-visible { outline: 3px solid var(--sky); outline-offset: 3px; }
+    .hero {
+      overflow: hidden;
+      color: #fff;
+      background:
+        radial-gradient(circle at 84% 20%, rgba(72, 182, 255, .9), transparent 24rem),
+        radial-gradient(circle at 8% 112%, rgba(10, 132, 255, .62), transparent 25rem),
+        linear-gradient(135deg, #03114e 0%, var(--navy) 45%, #087fe9 120%);
+    }
+    .wrap { width: min(100% - 40px, 1040px); margin: 0 auto; }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 22px 0;
+      font-size: .9rem;
+    }
+    .brand { color: #fff; font-weight: 800; letter-spacing: .04em; text-decoration: none; }
+    .brand-mark { color: var(--sky); }
+    nav ul { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 18px; margin: 0; padding: 0; list-style: none; }
+    nav a { color: rgba(255,255,255,.92); text-decoration: none; }
+    nav a:hover { color: #fff; }
+    .hero-content { padding: 72px 0 88px; max-width: 760px; }
+    .eyebrow { margin: 0 0 12px; color: var(--sky); font-size: .82rem; font-weight: 800; letter-spacing: .15em; }
+    h1 { margin: 0; font-size: clamp(3rem, 8vw, 5.6rem); line-height: .94; letter-spacing: -.07em; }
+    .hero h1 span { color: var(--sky); }
+    .lead { max-width: 650px; margin: 28px 0 0; color: rgba(255,255,255,.9); font-size: clamp(1.1rem, 2vw, 1.35rem); }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .button {
+      display: inline-block;
+      padding: 12px 18px;
+      border: 1px solid rgba(255,255,255,.42);
+      border-radius: 999px;
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .button.primary { border-color: var(--sky); background: var(--sky); color: #04105c; }
+    main { padding: 64px 0 72px; }
+    section { margin: 0 0 72px; }
+    h2 { margin: 0 0 18px; color: var(--navy); font-size: clamp(1.75rem, 3.5vw, 2.5rem); letter-spacing: -.045em; line-height: 1.15; }
+    .story {
+      max-width: 800px;
+      padding: 28px 30px;
+      border-left: 5px solid var(--blue);
+      border-radius: 0 16px 16px 0;
+      background: var(--surface);
+      box-shadow: 0 10px 30px rgba(6, 26, 110, .07);
+      font-size: 1.08rem;
+    }
+    .story p:first-child { margin-top: 0; }
+    .story p:last-child { margin-bottom: 0; }
+    .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .card {
+      min-height: 190px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: 0 10px 25px rgba(6, 26, 110, .05);
+    }
+    .icon { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 12px; background: var(--soft-blue); color: var(--blue); font-size: 1.25rem; }
+    h3 { margin: 18px 0 8px; color: var(--navy); font-size: 1.1rem; }
+    .card p { margin: 0; color: var(--muted); }
+    .testflight {
+      padding: clamp(28px, 5vw, 52px);
+      border-radius: 24px;
+      color: #fff;
+      background: linear-gradient(125deg, var(--navy), #0b78d7);
+    }
+    .testflight h2 { color: #fff; }
+    .testflight p { max-width: 760px; font-size: 1.06rem; }
+    .source-note { padding: 24px; border-radius: 16px; background: var(--soft-blue); }
+    .source-note p:first-child { margin-top: 0; }
+    .source-note p:last-child { margin-bottom: 0; }
+    .source-list { padding-left: 20px; }
+    footer { padding: 30px 0 44px; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+    .footer-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; }
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 32px, 1040px); }
+      nav { align-items: flex-start; flex-direction: column; gap: 10px; }
+      nav ul { justify-content: flex-start; gap: 12px 16px; }
+      .hero-content { padding: 56px 0 64px; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .story { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <nav aria-label="主要導覽">
+        <a class="brand" href="#top"><span class="brand-mark">●</span> ETA321</a>
+        <ul>
+          <li><a href="#features">功能</a></li>
+          <li><a href="#testflight">TestFlight</a></li>
+          <li><a href="#sources">資料來源</a></li>
+          <li><a href="#terms-and-statements">條款及聲明</a></li>
+        </ul>
+      </nav>
+      <div id="top" class="hero-content">
+        <p class="eyebrow">HONG KONG TRANSIT ETA</p>
+        <h1>每一秒，<span>更清楚。</span></h1>
+        <p class="lead">ETA321 將香港公共交通 ETA 轉化為更實在、更易閱讀的分秒倒數。</p>
+        <div class="cta-row">
+          <a class="button primary" href="#testflight">加入 TestFlight 測試</a>
+          <a class="button" href="#features">了解功能</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section aria-labelledby="story-heading">
+      <h2 id="story-heading">7 分鐘，不只是 7 分鐘</h2>
+      <div class="story">
+        <p>成日搭屯馬綫、東涌綫嘅你，見到下一班要等 7 分鐘，嗰刻先開始後悔：「如果頭先行快兩步就好啦……」如果趕得切上一班車，就唔使企喺個又熱又焗嘅月台，眼白白望住個「7分」慢慢變成「6分」。</p>
+        <p>ETA321 嘗試將港鐵同巴士常見嘅到站分鐘，變成更實在嘅分秒倒數，再配合列車位置推算同 Live Activity，令你更清楚掌握每一秒。</p>
+      </div>
+    </section>
+
+    <section id="features" aria-labelledby="features-heading">
+      <h2 id="features-heading">功能</h2>
+      <div class="feature-grid">
+        <article class="card"><span class="icon" aria-hidden="true">⏱</span><h3>分秒 ETA 倒數</h3><p>將公開 ETA 轉化為穩定、易讀的預估倒數。</p></article>
+        <article class="card"><span class="icon" aria-hidden="true">🚇</span><h3>港鐵路線與位置</h3><p>支援港鐵 ETA、路線地圖及列車位置推算。</p></article>
+        <article class="card"><span class="icon" aria-hidden="true">🚌</span><h3>城巴及九巴 ETA</h3><p>在同一個介面查看已選路線的巴士到站預估。</p></article>
+        <article class="card"><span class="icon" aria-hidden="true">📱</span><h3>Live Activity</h3><p>將已選路線的 ETA 顯示在 iPhone 鎖定畫面及動態島。</p></article>
+      </div>
+    </section>
+
+    <section id="testflight" class="testflight" aria-labelledby="testflight-heading">
+      <h2 id="testflight-heading">TestFlight 公開測試</h2>
+      <p>而家我哋正進行 TestFlight 公開測試，所以想搵一班真正會望住「7分鐘」發呆、會計住自己趕唔趕得切嘅朋友，幫手試新嘢。</p>
+      <p>一齊睇下，ETA321 嘅分秒倒數可以有幾準。</p>
+    </section>
+
+    <section id="sources" aria-labelledby="sources-heading">
+      <h2 id="sources-heading">資料來源與使用權限</h2>
+      <div class="source-note">
+        <p>ETA321 使用經 DATA.GOV.HK 發布的公開交通資料，並按其使用條款取得、整理、結合及以本機運算方式呈現 ETA。</p>
+        <ul class="source-list">
+          <li><a href="https://data.gov.hk/en-data/dataset/mtr-data2-nexttrain-data">港鐵即時列車資料</a> — 知識產權權利人：MTR Corporation Limited</li>
+          <li><a href="https://data.gov.hk/en-data/dataset/hk-td-tis_21-etakmb">九巴即時到站資料</a> — 經運輸署發布；原始資料權利人包括 The Kowloon Motor Bus Company (1933) Limited 及 Long Win Bus Company Limited</li>
+          <li><a href="https://data.gov.hk/en-data/dataset/ctb-eta-transport-realtime-eta">城巴即時到站資料</a> — 知識產權權利人：Citybus Limited</li>
+          <li><a href="https://data.gov.hk/tc/terms-and-conditions">DATA.GOV.HK 使用條款及條件</a></li>
+        </ul>
+        <p>ETA321 為獨立開發的資訊工具，並非港鐵、九巴、城巴、DATA.GOV.HK 或任何營辦商的官方服務，亦不代表獲其認可。到站時間及分秒倒數均屬預估資訊，請以營辦商官方公告及現場資訊為準。</p>
+      </div>
+    </section>
+
+    <section id="terms-and-statements" aria-labelledby="terms-and-statements-heading">
+      <h2 id="terms-and-statements-heading">條款及聲明</h2>
+      <p><a href="terms-of-use.htm">使用條款</a>　·　<a href="data-privacy-policy.htm">私隱政策</a>　·　<a href="disclaimer.htm">免責聲明</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-row">
+      <span>ETA321 · 香港公共交通預估倒數</span>
+      <span>以公開 ETA 資料為基礎，為香港出行多看清一點時間。</span>
+    </div>
+  </footer>
+</body>
+</html>

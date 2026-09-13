@@ -21,7 +21,7 @@
     }
     .wrap { width: min(100% - 40px, 820px); margin: 0 auto; }
     .hero { padding: 52px 0 46px; }
-    .brand { margin: 0 0 12px; color: #8ed2ff; font-size: .9rem; font-weight: 800; letter-spacing: .14em; }
+    .brand { display: inline-block; margin: 0 0 12px; color: #8ed2ff; font-size: .9rem; font-weight: 800; letter-spacing: .14em; text-decoration: none; }
     h1 { margin: 0; font-size: clamp(2.3rem, 6vw, 3.5rem); line-height: 1.1; letter-spacing: -.05em; }
     .hero p:last-child { max-width: 600px; margin: 18px 0 0; color: rgba(255,255,255,.9); font-size: 1.08rem; }
     main { padding: 48px 0 64px; }
@@ -69,7 +69,7 @@
 <body>
   <header>
     <div class="wrap hero">
-      <p class="brand">● ETA321 SUPPORT</p>
+      <a class="brand" href="index.html">● ETA321 SUPPORT</a>
       <h1>支援</h1>
       <p>了解 ETA321 的基本使用方法、ETA 顯示方式、Live Activity 與常見問題。</p>
     </div>
@@ -139,19 +139,20 @@
 
     <section aria-labelledby="contact-heading">
       <h2 id="contact-heading">聯絡與回報問題</h2>
-      <p>如要回報問題或提供意見，請透過 GitHub Issues 聯絡我們。為協助排查，請提供 App 版本、iOS 版本、所選路線／車站或巴士站、問題發生時間，以及不含個人資料的截圖（如有）。</p>
-      <p><a class="button" href="XXX">前往 XXX</a></p>
-      <p>GitHub Issues 可公開檢視；請勿張貼位置資料、帳戶資料或任何其他敏感個人資料。</p>
+      <p>如要回報問題、提供意見或聯絡開發人員，請電郵至 <a href="mailto:eta321hk@gmail.com">eta321hk@gmail.com</a>。為協助排查，請提供 App 版本、iOS 版本、所選路線／車站或巴士站、問題發生時間，以及不含個人資料的截圖（如有）。</p>
+      <p><a class="button" href="mailto:eta321hk@gmail.com">電郵聯絡 ETA321</a></p>
+      <p>請勿在電郵內提供位置資料、帳戶資料或其他不必要的敏感個人資料。</p>
     </section>
 
     <section aria-labelledby="terms-heading">
       <h2 id="terms-heading">條款及聲明</h2>
       <p><a href="terms-of-use.htm">使用條款</a>　·　<a href="data-privacy-policy.htm">私隱政策</a>　·　<a href="disclaimer.htm">免責聲明</a></p>
+      <p>使用本 App 前，請一併參閱上述條款及聲明；如需返回產品介紹或查閱資料來源，請前往<a href="index.html">首頁</a>。</p>
     </section>
   </main>
 
   <footer>
-    <div class="wrap">ETA321 · 香港公共交通預估倒數</div>
+    <div class="wrap"><a href="index.html">首頁</a>　·　<a href="support.htm">支援</a>　·　<a href="terms-of-use.htm">使用條款</a>　·　<a href="data-privacy-policy.htm">私隱政策</a>　·　<a href="disclaimer.htm">免責聲明</a></div>
   </footer>
 </body>
 </html>
